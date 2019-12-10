@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Log;
+
 class SubmitController extends Controller
 {
-    public function create(){
 
-    	return view('form');
-    }
-
-    public function store(){
-
+    public function store(Request $request){
+    	
     }
 }

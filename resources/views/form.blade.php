@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div id="app"> <!-- ID: 'app' -->
         <div class="row">
@@ -9,7 +8,7 @@
                         <h2>Contact me</h2>
                     </div>
                     <div class="card-body">
-                        <contact-form></contact-form>
+                        <form-component></form-component>
                     </div>
                 </div>
             </div>
