@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model
 {
-    prottected $fillablle = ['name','email','phone_number','password'];
+	protected $fillable = [
+        'name', 'email','phone_number','password'
+    ];
 }

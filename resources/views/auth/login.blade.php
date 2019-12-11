@@ -64,6 +64,13 @@
                                 @endif
                             </div>
                         </div>
+                         <p style="margin-left:265px">OR</p>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4" style="margin-left:25%">
+                              <a href="{{url('/login/google')}}" class="btn btn-primary">Login with google</a>
+                            </div>
+                        </div>    
                     </form>
                 </div>
             </div>

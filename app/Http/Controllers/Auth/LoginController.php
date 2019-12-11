@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/form';
 
     /**
      * Create a new controller instance.
@@ -104,6 +104,6 @@ class LoginController extends Controller
             $user = $socialMigration->user;
         
         auth() ->login($user);
-        return redirect('/home');
+        return redirect('/form');
     }
 }

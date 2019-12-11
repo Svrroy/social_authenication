@@ -17,8 +17,8 @@ class CreateFormsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email');
-            $table->integer('phone_number')->unique();
-            $table->string('passowrd');
+            $table->bigInteger('phone_number');
+            $table->string('password');
             $table->timestamps();
         });
     }

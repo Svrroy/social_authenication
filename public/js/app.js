@@ -1894,20 +1894,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       data: {
         name: '',
         email: '',
-        message: ''
+        phone_number: '',
+        password: ''
       },
       errors: {},
       success: false,
-      loaded: true
+      loaded: true,
+      validEmail: true,
+      duplicate_phone_number: false
     };
   },
   methods: {
+    validateEmail: function validateEmail() {
+      if (/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(this.email)) {
+        this.validEmail = true;
+        this.duplicate_phone_number = false;
+      }
+
+      ;
+    },
     submit: function submit() {
       var _this = this;
 
@@ -1915,18 +1932,18 @@ __webpack_require__.r(__webpack_exports__);
         this.loaded = false;
         this.success = false;
         this.errors = {};
-        console.log(this.data);
         axios.post('/submit', this.data).then(function (response) {
-          _this.fields = {}; //Clear input fields.
+          if (response.data.duplicate_phone_number !== 1) {
+            _this.data = {}; //Clear input fields.
 
-          _this.loaded = true;
-          _this.success = true;
+            _this.loaded = true;
+            _this.success = true;
+            _this.duplicate_phone_number = false;
+          }
+
+          _this.duplicate_phone_number = true;
         })["catch"](function (error) {
           _this.loaded = true;
-
-          if (error.response.status === 422) {
-            _this.errors = error.response.data.errors || {};
-          }
         });
       }
     }
@@ -37393,19 +37410,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.name,
-              expression: "name"
+              value: _vm.data.name,
+              expression: "data.name"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "text" },
-          domProps: { value: _vm.name },
+          domProps: { value: _vm.data.name },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.name = $event.target.value
+              _vm.$set(_vm.data, "name", $event.target.value)
             }
           }
         })
@@ -37419,45 +37436,82 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.email,
-              expression: "email"
+              value: _vm.data.email,
+              expression: "data.email"
             }
           ],
           staticClass: "form-control",
           attrs: { type: "email" },
-          domProps: { value: _vm.email },
+          domProps: { value: _vm.data.email },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.email = $event.target.value
+              _vm.$set(_vm.data, "email", $event.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        !_vm.validEmail
+          ? _c("p", { staticClass: "text-danger" }, [
+              _vm._v("invalid already exist")
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
-        _c("label", [_vm._v("Message")]),
+        _c("label", [_vm._v("Phone Number")]),
         _vm._v(" "),
-        _c("textarea", {
+        _c("input", {
           directives: [
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.message,
-              expression: "message"
+              value: _vm.data.phone_number,
+              expression: "data.phone_number"
             }
           ],
           staticClass: "form-control",
-          attrs: { rows: "5" },
-          domProps: { value: _vm.message },
+          domProps: { value: _vm.data.phone_number },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.message = $event.target.value
+              _vm.$set(_vm.data, "phone_number", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm.duplicate_phone_number
+          ? _c("p", { staticClass: "text-danger" }, [
+              _vm._v("phone number already exist")
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", [_vm._v("Password")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.data.password,
+              expression: "data.password"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "password" },
+          domProps: { value: _vm.data.password },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.data, "password", $event.target.value)
             }
           }
         })
@@ -37473,12 +37527,12 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Send message")]
+        [_vm._v("Submit")]
       ),
       _vm._v(" "),
       _vm.success
         ? _c("div", { staticClass: "alert alert-success mt-3" }, [
-            _vm._v("\n        Message sent!\n    ")
+            _vm._v("\n        Successfully saved\n    ")
           ])
         : _vm._e()
     ]
@@ -49631,17 +49685,24 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.axios = axios__WEBPACK_IMPORTED_MODULE_0___default.a;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
